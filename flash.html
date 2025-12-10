@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Flash | SIGNUS TATTOO</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- BOOTSTRAP -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- ICONS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+<!-- FONTS -->
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin:0;
+  padding-top:90px;
+  font-family:'Montserrat', sans-serif;
+}
+
+/* ================= NAVBAR ================= */
+.nav-link {
+  position:relative;
+  text-decoration:none;
+  color:#6c757d !important;
+  font-weight:700;
+}
+.nav-link:hover { color:black !important; opacity:.7; }
+.nav-link::after {
+  content:"";
+  position:absolute;
+  left:0; bottom:-3px;
+  width:0%; height:2px;
+  background:black;
+  transition:.3s;
+}
+.nav-link:hover::after { width:100%; }
+.nav-active { color:black !important; }
+
+/* MOBILE MENU */
+#mobileMenu {
+  display:none;
+  background:white;
+  width:200px;
+  position:fixed;
+  top:70px; right:20px;
+  padding:15px 20px;
+  border-radius:4px;
+  box-shadow:0 4px 10px rgba(0,0,0,.12);
+  opacity:0;
+  transform:translateY(-10px);
+  transition:all .25s ease;
+  z-index:3000;
+}
+#mobileMenu.open { display:block; opacity:1; transform:translateY(0); }
+.mobile-link { display:block; padding:10px 0; font-size:17px; color:#6c757d; }
+.mobile-link.active { color:black !important; }
+
+/* NO BLUE FOCUS */
+*:focus { outline:none !important; box-shadow:none !important; }
+
+/* ================= COLLAPSIBLE STYLE ================= */
+.collapsible {
+  width:100%;
+  background:white;
+  padding:18px 20px;
+  text-align:left;
+  border:none;
+  border-bottom:1px solid black;
+  font-family:"Anton";
+  font-size:22px;
+  letter-spacing:1px;
+  cursor:pointer;
+  position:relative;
+}
+
+.collapsible::after {
+  content:"⯆";
+  position:absolute;
+  right:10px;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:24px;
+}
+
+.collapsible.active::after {
+  content:"⯅";
+}
+
+.content-box {
+  max-height:0;
+  overflow:hidden;
+  transition:max-height .35s ease;
+  padding-left:10px;
+  padding-right:10px;
+}
+
+.content-inner {
+  padding:20px 0;
+  display:flex;
+  flex-wrap:wrap;
+  gap:20px;
+  justify-content:center;
+}
+
+/* THUMBNAILS FIX (SMALLER TO FIT 5 IMAGES) */
+.gallery-img {
+  width:140px !important;
+  max-width:140px !important;
+  height:auto;
+  cursor:pointer;
+  transition:.2s;
+}
+.gallery-img:hover { opacity:.8; }
+
+/* ================= MODAL VIEW IMAGE ================= */
+#viewerModal {
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.8);
+  justify-content:center;
+  align-items:center;
+  z-index:5000;
+}
+
+#viewerImg {
+  max-width:85%;
+  max-height:85%;
+}
+
+/* Next / Prev arrows */
+.viewer-arrow {
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  color:white;
+  font-size:50px;
+  cursor:pointer;
+  user-select:none;
+  font-weight:200;
+}
+
+#leftView { left:30px; }
+#rightView { right:30px; }
+
+/* Close button X */
+#closeView {
+  position:absolute;
+  top:20px;
+  right:30px;
+  font-size:45px;
+  font-weight:900;
+  color:white;
+  cursor:pointer;
+  user-select:none;
+}
+
+/* FOOTER */
+.footer-logo-desktop {
+  max-height:90px !important;
+  padding-left:60px !important;
+  margin-top:30px !important;
+}
+.footer-logo-mobile { display:none !important; }
+
+@media(max-width:576px){
+  .footer-logo-desktop{ display:none!important; }
+  .footer-mobile-center{ text-align:center!important; margin-bottom:25px!important; }
+  .footer-underline{ margin-left:auto!important; margin-right:auto!important; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar fixed-top" style="background:white; padding:12px 20px; z-index:4000;">
+  <div class="container-fluid d-flex align-items-center justify-content-between">
+    
+    <!-- MOBILE LOGO -->
+    <a href="index.html" class="d-lg-none">
+      <img src="logoMobile.png" style="height:45px;">
+    </a>
+
+    <!-- DESKTOP NAV -->
+    <div class="d-none d-lg-flex align-items-center" style="gap:30px;">
+      <a href="index.html"><img src="logo.png" style="height:55px;"></a>
+      <a href="flash.html" class="nav-link fw-bold nav-active">FLASH</a>
+      <a href="about.html" class="nav-link fw-bold">ABOUT</a>
+      <a href="contact.html" class="nav-link fw-bold">CONTACT</a>
+      <a href="faqs.html" class="nav-link fw-bold">FAQS</a>
+    </div>
+
+    <!-- DESKTOP RIGHT NAV -->
+    <div id="rightNav" class="d-none d-lg-flex align-items-center" style="gap:25px;"></div>
+
+    <!-- BURGER -->
+    <button id="mobileToggle" class="navbar-toggler d-lg-none"
+            style="border:none; font-size:24px; background:none;">&#9776;</button>
+  </div>
+</nav>
+
+
+<!-- ================= MOBILE MENU ================= -->
+<div id="mobileMenu">
+  <a href="index.html" class="mobile-link">Home</a>
+  <a href="flash.html" class="mobile-link active">Flash</a>
+  <a href="about.html" class="mobile-link">About</a>
+  <a href="contact.html" class="mobile-link">Contact</a>
+  <a href="faqs.html" class="mobile-link">FAQs</a>
+  <div id="mobileAccount" style="margin-top:15px; font-size:12px; opacity:.7;">Account</div>
+</div>
+
+
+<!-- ================= HERO ================= -->
+<div style="
+  height:300px;
+  background:url('flashbg.png') center/cover;
+  position:relative;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  padding-bottom:40px;">
+  
+  <div style="position:absolute; inset:0; background:rgba(0,0,0,.35);"></div>
+
+  <h1 style="position:relative; font-size:3rem; font-family:'Anton'; color:white;">
+    Flash Designs
+  </h1>
+</div>
+
+
+<!-- ================= CAROUSEL ================= -->
+<div style="max-width:1500px; margin:auto; margin-top:50px; margin-bottom:40px; position:relative; overflow:hidden;">
+
+  <div onclick="prevRow()" 
+       style="position:absolute; left:10px; top:50%; transform:translateY(-50%); font-size:48px; font-weight:900; color:white; cursor:pointer;">‹</div>
+
+  <div style="overflow:hidden;">
+    <div id="flashRowTrack" style="display:flex; gap:22px; transition:transform .4s ease;"></div>
+  </div>
+
+  <div onclick="nextRow()" 
+       style="position:absolute; right:10px; top:50%; transform:translateY(-50%); font-size:48px; font-weight:900; color:white; cursor:pointer;">›</div>
+
+</div>
+
+<script>
+const images = [
+  "2.png","3.png","4.png","5.png","6.png",
+  "7.png","8.png","9.png","10.png","11.png",
+  "12.png","13.png","14.png","15.png","16.png","17.png"
+];
+
+const visibleCount = 5;
+const imgWidth = 300 + 22;
+const track = document.getElementById("flashRowTrack");
+const loopImages = [...images, ...images, ...images];
+
+loopImages.forEach(src => {
+  let img = document.createElement("img");
+  img.src = src;
+  img.style.width = "300px";
+  img.style.cursor = "pointer";
+  img.onclick = () => openPreview(src);
+  track.appendChild(img);
+});
+
+let index = images.length;
+
+function updateRow() {
+  track.style.transform = "translateX(" + (-index * imgWidth) + "px)";
+}
+
+function nextRow() {
+  index++;
+  updateRow();
+
+  if (index >= images.length * 2) {
+    setTimeout(() => {
+      index = images.length;
+      track.style.transition = "none";
+      updateRow();
+      setTimeout(() => track.style.transition = ".4s ease", 20);
+    }, 400);
+  }
+}
+
+function prevRow() {
+  index--;
+  updateRow();
+
+  if (index < images.length) {
+    setTimeout(() => {
+      index = images.length * 2;
+      track.style.transition = "none";
+      updateRow();
+      setTimeout(() => track.style.transition = ".4s ease", 20);
+    }, 400);
+  }
+}
+
+updateRow();
+setInterval(nextRow, 3000);
+
+/* CAROUSEL PREVIEW */
+function openPreview(src) {
+  openViewer(src);
+}
+</script>
+
+
+<!-- ================= COLLAPSIBLE SECTIONS ================= -->
+<div class="container" style="padding-top:60px; padding-bottom:60px;">
+
+  <button class="collapsible">MINIMALIST</button>
+  <div class="content-box">
+    <div class="content-inner">
+      <img src="6.png" class="gallery-img">
+      <img src="9.png" class="gallery-img">
+      <img src="7.png" class="gallery-img">
+      <img src="11.png" class="gallery-img">
+      <img src="12.png" class="gallery-img">
+    </div>
+  </div>
+
+  <button class="collapsible">CUSTOM</button>
+  <div class="content-box">
+    <div class="content-inner">
+      <img src="4.png" class="gallery-img">
+      <img src="3.png" class="gallery-img">
+      <img src="2.png" class="gallery-img">
+      <img src="5.png" class="gallery-img">
+      <img src="8.png" class="gallery-img">
+    </div>
+  </div>
+
+  <button class="collapsible">COLORED</button>
+  <div class="content-box">
+    <div class="content-inner">
+      <img src="10.png" class="gallery-img">
+      <img src="12.png" class="gallery-img">
+      <img src="13.png" class="gallery-img">
+      <img src="14.png" class="gallery-img">
+      <img src="15.png" class="gallery-img">
+    </div>
+  </div>
+
+  <button class="collapsible">BLACK & GREY</button>
+  <div class="content-box">
+    <div class="content-inner">
+      <img src="5.png" class="gallery-img">
+      <img src="8.png" class="gallery-img">
+      <img src="11.png" class="gallery-img">
+      <img src="16.png" class="gallery-img">
+      <img src="17.png" class="gallery-img">
+    </div>
+  </div>
+
+</div>
+
+
+<!-- ================= IMAGE VIEWER (MODAL) ================= -->
+<div id="viewerModal">
+  <span id="leftView" class="viewer-arrow" onclick="viewPrev()">‹</span>
+  <img id="viewerImg">
+  <span id="rightView" class="viewer-arrow" onclick="viewNext()">›</span>
+  <span id="closeView">✕</span>
+</div>
+
+
+<!-- ================= FOOTER ================= -->
+<footer style="background:black; color:white; margin-top:40px;">
+
+  <div class="container py-5">
+    <div class="row gy-4">
+
+      <div class="col-md-4 text-center text-md-start footer-mobile-center">
+        <img src="logo1.png" class="footer-logo-desktop">
+      </div>
+
+      <div class="col-md-4 text-center text-md-start footer-mobile-center">
+        <h5 style="font-weight:700; margin-bottom:5px;">Contact Info</h5>
+        <div class="footer-underline"
+             style="height:2px; width:50px; background:white; margin:5px auto 15px;"></div>
+
+        <p><i class="bi bi-telephone"></i> 0991-845-1903</p>
+        <p><i class="bi bi-envelope"></i> 
+          <a href="mailto:rhubelyngracef@gmail.com" 
+             style="color:white; text-decoration:underline;">rhubelyngracef@gmail.com</a>
+        </p>
+        <p><i class="bi bi-facebook"></i> 
+          <a href="#" style="color:white; text-decoration:underline;">Signus Tattoo</a>
+        </p>
+      </div>
+
+      <div class="col-md-4 text-center text-md-start footer-mobile-center">
+        <h5 style="font-weight:700; margin-bottom:5px;">Business Hours</h5>
+        <div class="footer-underline"
+             style="height:2px; width:50px; background:white; margin:5px auto 15px;"></div>
+        <p>Everyday: <strong>9:00 AM – 9:00 PM</strong></p>
+      </div>
+
+    </div>
+  </div>
+
+  <div style="text-align:center; padding:12px; background:black; font-size:13px;">
+    © 2025 Signus Tattoo. All Rights Reserved.
+  </div>
+
+</footer>
+
+
+<!-- ================= JS — COLLAPSIBLE + VIEWER ================= -->
+<script>
+/* COLLAPSIBLE */
+let col = document.getElementsByClassName("collapsible");
+for (let i = 0; i < col.length; i++) {
+  col[i].addEventListener("click", function () {
+    this.classList.toggle("active");
+    let content = this.nextElementSibling;
+    content.style.maxHeight = content.style.maxHeight ? null : content.scrollHeight + "px";
+  });
+}
+
+/* IMAGE VIEWER */
+let viewer = document.getElementById("viewerModal");
+let viewerImg = document.getElementById("viewerImg");
+let allImages = Array.from(document.getElementsByClassName("gallery-img"));
+let currentIndex = 0;
+
+allImages.forEach((img, i)=>{
+  img.addEventListener("click", function(){
+    currentIndex = i;
+    viewerImg.src = img.src;
+    viewer.style.display="flex";
+  });
+});
+
+function openViewer(src){
+  viewerImg.src = src;
+  viewer.style.display = "flex";
+}
+
+function viewNext(){
+  currentIndex = (currentIndex + 1) % allImages.length;
+  viewerImg.src = allImages[currentIndex].src;
+}
+
+function viewPrev(){
+  currentIndex = (currentIndex - 1 + allImages.length) % allImages.length;
+  viewerImg.src = allImages[currentIndex].src;
+}
+
+document.getElementById("closeView").onclick = () => {
+  viewer.style.display = "none";
+};
+
+viewer.onclick = (e)=>{ if(e.target === viewer) viewer.style.display="none"; };
+
+
+/* RIGHT NAV — FIXED */
+function buildRightNav(){
+  const nav = document.getElementById("rightNav");
+  const user = JSON.parse(localStorage.getItem("signus_user") || "null");
+
+  nav.innerHTML = !user
+    ? `<a href="login.html" class="nav-link fw-bold">LOGIN</a>
+       <a href="signup.html" class="nav-link fw-bold">SIGN UP</a>`
+    : `
+       <a href="notifications.html" class="nav-link" style="color:#6c757d;">
+         <i class="bi bi-bell-fill fs-4"></i>
+       </a>
+
+       <div class="dropdown">
+         <button class="btn dropdown-toggle"
+           style="border:none; background:none; color:#6c757d;"
+           data-bs-toggle="dropdown">
+           <i class="bi bi-person-circle fs-4"></i>
+         </button>
+
+         <ul class="dropdown-menu dropdown-menu-end">
+           <li class="dropdown-item-text">Hello, <b>${user.fullName}</b></li>
+           <li><hr class="dropdown-divider"></li>
+           <li><a class="dropdown-item" href="settings.html">Account Settings</a></li>
+           <li><a class="dropdown-item" href="notifications.html">Notifications</a></li>
+           <li><hr class="dropdown-divider"></li>
+           <li><a class="dropdown-item text-danger" href="login.html" onclick="logoutUser()">Logout</a></li>
+         </ul>
+       </div>
+     `;
+}
+
+function buildMobileAccount(){
+  const acc = document.getElementById("mobileAccount");
+  const user = JSON.parse(localStorage.getItem("signus_user") || "null");
+
+  acc.insertAdjacentHTML("afterend",
+    !user
+      ? `<a href="login.html" class="mobile-link">Login</a>
+         <a href="signup.html" class="mobile-link">Sign Up</a>`
+      : `<a href="settings.html" class="mobile-link">Settings</a>
+         <a href="notifications.html" class="mobile-link">Notifications</a>
+         <a href="#" class="mobile-link" onclick="logoutUser()">Logout</a>`
+  );
+}
+
+function logoutUser(){ localStorage.removeItem("signus_user"); }
+
+/* MOBILE MENU */
+const toggle = document.getElementById("mobileToggle");
+const menu = document.getElementById("mobileMenu");
+toggle.onclick = () => {
+  menu.classList.toggle("open");
+  toggle.innerHTML = menu.classList.contains("open") ? "&times;" : "&#9776;";
+};
+
+/* NAV SHADOW */
+document.addEventListener("scroll",()=>{
+  const nav=document.querySelector("nav");
+  nav.style.boxShadow = window.scrollY > 10 
+    ? "0 2px 10px rgba(0,0,0,.25)" 
+    : "none";
+});
+
+/* INIT */
+document.addEventListener("DOMContentLoaded",()=>{
+  buildRightNav();
+  buildMobileAccount();
+});
+</script>
+
+<!-- BOOTSTRAP JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

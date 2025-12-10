@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Notifications | SIGNUS TATTOO</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- BOOTSTRAP -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+<!-- FONTS -->
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  padding-top:90px;
+  background:#f5f5f5;
+  font-family:'Montserrat';
+}
+
+*:focus{ outline:none!important; box-shadow:none!important; }
+
+/* ================= NAVBAR ================= */
+.nav-link{
+  position:relative;
+  display:inline-block;
+  color:#6c757d!important;
+  font-weight:700;
+  text-decoration:none;
+}
+.nav-link:hover{
+  color:black!important;
+  opacity:0.7;
+}
+.nav-link::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-3px;
+  width:0%;
+  height:2px;
+  background:black;
+  transition:.3s ease;
+}
+.nav-link:hover::after{ width:100%; }
+
+/* MOBILE MENU */
+.mobile-link{
+  display:block;
+  padding:10px 0;
+  font-size:17px;
+  color:#6c757d;
+  font-weight:400;
+  text-decoration:none!important;
+}
+.mobile-link.active{ color:black!important; }
+
+/* NOTIFICATION CARDS */
+.notif-card{
+  background:white;
+  padding:18px 20px;
+  border-radius:10px;
+  box-shadow:0 4px 14px rgba(0,0,0,0.12);
+  margin-bottom:15px;
+}
+.notif-title{
+  font-weight:600;
+  font-size:1rem;
+}
+.notif-time{
+  font-size:0.8rem;
+  opacity:0.7;
+}
+
+/* STATUS BADGES */
+.badge-pending{
+  background:#d4a800;
+  color:white;
+  padding:4px 10px;
+  border-radius:6px;
+  font-size:0.75rem;
+}
+.badge-approved{
+  background:#1c8f3c;
+  color:white;
+  padding:4px 10px;
+  border-radius:6px;
+  font-size:0.75rem;
+}
+.badge-denied{
+  background:#b40000;
+  color:white;
+  padding:4px 10px;
+  border-radius:6px;
+  font-size:0.75rem;
+}
+</style>
+</head>
+
+<body>
+
+<nav id="mainNav" class="navbar fixed-top"
+     style="background:white; padding:12px 20px; z-index:4000;">
+
+  <div class="container-fluid d-flex align-items-center justify-content-between">
+
+    <!-- MOBILE LOGO -->
+    <a href="index.html" class="d-lg-none">
+      <img src="logoMobile.png" style="height:45px;">
+    </a>
+
+    <!-- DESKTOP NAV -->
+    <div class="d-none d-lg-flex align-items-center" style="gap:30px;">
+      <a href="index.html"><img src="logo.png" style="height:55px;"></a>
+
+      <a href="flash.html" class="nav-link">FLASH</a>
+      <a href="about.html" class="nav-link">ABOUT</a>
+      <a href="contact.html" class="nav-link">CONTACT</a>
+      <a href="faqs.html" class="nav-link">FAQS</a>
+    </div>
+
+    <!-- RIGHT NAV -->
+    <div id="rightNav" class="d-none d-lg-flex align-items-center" style="gap:25px;"></div>
+
+    <!-- BURGER -->
+    <button id="mobileToggle" class="navbar-toggler d-lg-none"
+            style="border:none; background:none; font-size:24px;">
+      &#9776;
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div id="mobileMenu"
+     style="display:none; background:white; width:200px; position:fixed; top:70px; right:20px;
+            padding:15px 20px; border-radius:4px; box-shadow:0 4px 10px rgba(0,0,0,.15);
+            opacity:0; transform:translateY(-10px); transition:.25s ease; z-index:3000;">
+
+  <a href="index.html" class="mobile-link">Home</a>
+  <a href="flash.html" class="mobile-link">Flash</a>
+  <a href="about.html" class="mobile-link">About</a>
+  <a href="contact.html" class="mobile-link">Contact</a>
+  <a href="faqs.html" class="mobile-link">FAQs</a>
+
+  <div id="mobileAccount" style="margin-top:15px; font-size:12px; opacity:.7;">Account</div>
+</div>
+
+
+<!-- ================= NOTIFICATION SECTION ================= -->
+<div class="container" style="margin-top:40px;">
+  <h2 style="font-family:'Anton';">Notifications</h2>
+  <p>Your latest activities and booking updates</p>
+</div>
+
+<div class="container" id="notifContainer" style="margin-top:20px; margin-bottom:60px;">
+</div>
+
+
+<!-- ================= JS ================= -->
+<script>
+
+function buildNavbar(){
+  const rightNav = document.getElementById("rightNav");
+  const user = JSON.parse(localStorage.getItem("signus_user"));
+
+  if(!user){
+    rightNav.innerHTML = `
+      <a href="login.html" class="nav-link fw-bold">LOGIN</a>
+      <a href="signup.html" class="nav-link fw-bold">SIGN UP</a>
+    `;
+  } else {
+    rightNav.innerHTML = `
+      <a href="notifications.html" class="nav-link">
+        <i class="bi bi-bell-fill fs-4"></i>
+      </a>
+
+      <div class="dropdown">
+        <button class="btn dropdown-toggle"
+                style="border:none; background:none; color:#6c757d;"
+                data-bs-toggle="dropdown">
+          <i class="bi bi-person-circle fs-4"></i>
+        </button>
+
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li class="dropdown-item-text">Hello, <b>${user.fullName}</b></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" href="settings.html">Account Settings</a></li>
+          <li><a class="dropdown-item" href="notifications.html">Notifications</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item text-danger" href="login.html" onclick="logout()">Logout</a></li>
+        </ul>
+      </div>
+    `;
+  }
+}
+
+function logout(){
+  localStorage.removeItem("signus_user");
+}
+
+/* MOBILE MENU LOGIC */
+const toggle = document.getElementById("mobileToggle");
+const menu = document.getElementById("mobileMenu");
+
+toggle.onclick = () => {
+  if(menu.style.display === "block"){
+    menu.style.opacity = "0";
+    setTimeout(()=>menu.style.display="none",150);
+    toggle.innerHTML="&#9776;";
+  } else {
+    menu.style.display="block";
+    setTimeout(()=>menu.style.opacity="1",10);
+    toggle.innerHTML="&times;";
+  }
+};
+
+/* LOAD NOTIFICATIONS */
+function loadNotifications(){
+  const user = JSON.parse(localStorage.getItem("signus_user"));
+  const notifKey = "signus_notifications_" + user.email;
+  const list = JSON.parse(localStorage.getItem(notifKey) || "[]").reverse();
+
+  const area = document.getElementById("notifContainer");
+  area.innerHTML = "";
+
+  if(list.length === 0){
+    area.innerHTML = `<p>No notifications yet.</p>`;
+    return;
+  }
+
+  list.forEach(n => {
+    let badge =
+      n.status === "approved" ? "badge-approved" :
+      n.status === "denied" ? "badge-denied" :
+      "badge-pending";
+
+    area.innerHTML += `
+      <div class="notif-card">
+        <div class="d-flex justify-content-between">
+          <div class="notif-title">${n.text}</div>
+          <span class="${badge}">${n.status}</span>
+        </div>
+        <div class="notif-time">${n.timestamp}</div>
+      </div>
+    `;
+  });
+}
+
+document.addEventListener("DOMContentLoaded", ()=>{
+  buildNavbar();
+  loadNotifications();
+});
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

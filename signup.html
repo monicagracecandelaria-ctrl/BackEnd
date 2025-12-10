@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Sign Up | SIGNUS TATTOO</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- BOOTSTRAP -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+/* REMOVE BLUE FOCUS ENTIRELY */
+*:focus { outline:none !important; box-shadow:none !important; }
+input, button { outline:none !important; box-shadow:none !important; }
+
+/* REMOVE BLUE AUTO-FILL */
+input:-webkit-autofill {
+  -webkit-box-shadow:0 0 0 1000px #f6f6f6 inset !important;
+  -webkit-text-fill-color:black !important;
+}
+
+/* REMOVE MOBILE TAP HIGHLIGHT */
+* { -webkit-tap-highlight-color:rgba(0,0,0,0) !important; }
+
+/* FORM SMALLER */
+.signup-box {
+  background:#f6f6f6;
+  width:90%;
+  max-width:430px;
+  padding:28px 30px;
+  border-radius:12px;
+  box-shadow:0 4px 20px rgba(0,0,0,.35);
+}
+
+/* ERROR TEXT */
+.error-text {
+  display:none;
+  font-size:0.85rem;
+  color:#b30000;
+  margin-top:4px;
+}
+
+/* SHAKE ANIMATION */
+@keyframes shakeMedium {
+  0% { transform:translateX(0); }
+  25% { transform:translateX(-6px); }
+  50% { transform:translateX(6px); }
+  75% { transform:translateX(-6px); }
+  100% { transform:translateX(0); }
+}
+.shake { animation:shakeMedium 0.3s ease; }
+
+/* EYE ICON ALWAYS VISIBLE */
+.eye-icon {
+  position:absolute;
+  right:12px;
+  top:50%;
+  transform:translateY(-50%);
+  cursor:pointer;
+  color:#555;
+}
+
+/* BLACK BORDER ON FOCUS */
+.form-control:focus {
+  border-color:black !important;
+  box-shadow:none !important;
+}
+</style>
+
+</head>
+
+<body style="margin:0;">
+
+<!-- BACKGROUND WRAPPER -->
+<div style="position:relative; height:100vh; width:100%; overflow:hidden;">
+
+  <!-- VIDEO -->
+  <video autoplay muted loop playsinline
+         style="position:absolute; width:100%; height:100%; object-fit:cover;">
+    <source src="homebg.mp4" type="video/mp4">
+  </video>
+
+  <!-- OVERLAY -->
+  <div style="position:absolute; inset:0; background:rgba(0,0,0,0.55);"></div>
+
+  <!-- CONTENT -->
+  <div style="position:absolute; inset:0; display:flex; justify-content:center; align-items:center;">
+
+    <div class="signup-box">
+
+      <h2 style="font-weight:700; margin-bottom:15px; font-family:'Anton';">SIGN UP</h2>
+
+      <!-- TOP ERROR BOX -->
+      <div id="errorBox"
+           style="display:none; background:#f8d7da; color:#842029; padding:8px 12px;
+                  border-radius:4px; margin-bottom:10px; font-size:.85rem;">
+      </div>
+
+      <form id="signupForm">
+
+        <!-- FIRST + LAST NAME ROW -->
+        <div class="row">
+          <div class="col-6">
+            <label>First Name</label>
+            <input type="text" id="firstName" class="form-control">
+            <div id="fNameErr" class="error-text">Letters & spaces only.</div>
+          </div>
+
+          <div class="col-6">
+            <label>Last Name</label>
+            <input type="text" id="lastName" class="form-control">
+            <div id="lNameErr" class="error-text">Letters & spaces only.</div>
+          </div>
+        </div>
+
+        <!-- EMAIL -->
+        <label style="margin-top:10px;">Email</label>
+        <input type="email" id="email" class="form-control">
+        <div id="emailErr" class="error-text">This email is already registered.</div>
+
+        <!-- PASSWORD -->
+        <label style="margin-top:10px;">Password</label>
+        <div style="position:relative;">
+          <input type="password" id="password" class="form-control">
+          <i class="bi bi-eye eye-icon" id="togglePass1"
+             onclick="togglePass('password','togglePass1')"></i>
+        </div>
+        <div id="passErr" class="error-text">Password does not meet requirements.</div>
+
+        <!-- CONFIRM PASSWORD -->
+        <label style="margin-top:10px;">Confirm Password</label>
+        <div style="position:relative;">
+          <input type="password" id="confirm" class="form-control">
+          <i class="bi bi-eye eye-icon" id="togglePass2"
+             onclick="togglePass('confirm','togglePass2')"></i>
+        </div>
+        <div id="confirmErr" class="error-text">Passwords do not match.</div>
+
+        <!-- PASSWORD RULES -->
+        <div style="margin-top:10px; font-size:.65rem; color:#616161;">
+          <b>Your password must contain:</b><br>
+          • 8–16 characters<br>
+          • At least one uppercase letter<br>
+          • At least one number<br>
+          • At least one symbol (!@#$%)<br>
+        </div>
+
+        <!-- SIGN UP BUTTON -->
+        <button type="submit"
+                style="margin-top:12px; width:100%; padding:10px;
+                       background:black; color:white; border:none;
+                       border-radius:4px; font-weight:600;">
+          CREATE ACCOUNT
+        </button>
+
+        <!-- LOG IN LINK -->
+        <div style="margin-top:10px; text-align:center; font-size:.7rem;">
+          Already have an account?
+          <a href="login.html" style="text-decoration:underline; color:black;">Log In</a>
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+</div>
+
+
+<!-- JAVASCRIPT -->
+<script>
+
+/* TRIM + COLLAPSE SPACES */
+function cleanName(str){
+  return str.trim().replace(/\s+/g," ");
+}
+
+/* EYE TOGGLE FUNCTION */
+function togglePass(fieldId, iconId) {
+  const field = document.getElementById(fieldId);
+  const icon = document.getElementById(iconId);
+
+  if (field.type === "password") {
+    field.type = "text";
+    icon.classList.replace("bi-eye", "bi-eye-slash");
+  } else {
+    field.type = "password";
+    icon.classList.replace("bi-eye-slash", "bi-eye");
+  }
+}
+
+/* NAME VALIDATION (letters + spaces only) */
+function validName(str){
+  return /^[A-Za-z ]+$/.test(str);
+}
+
+/* PASSWORD VALIDATION */
+function validPassword(p){
+  return p.length>=8 &&
+         p.length<=16 &&
+         /[A-Z]/.test(p) &&
+         /[0-9]/.test(p) &&
+         /[!@#$%^&*(),.?":{}|<>]/.test(p);
+}
+
+/* SUBMIT HANDLER */
+document.getElementById("signupForm").addEventListener("submit", function(e){
+  e.preventDefault();
+
+  let first = cleanName(document.getElementById("firstName").value);
+  let last  = cleanName(document.getElementById("lastName").value);
+  let email = document.getElementById("email").value.trim().toLowerCase();
+  let pass  = document.getElementById("password").value;
+  let conf  = document.getElementById("confirm").value;
+
+  let hasErr = false;
+
+  const fErr = document.getElementById("fNameErr");
+  const lErr = document.getElementById("lNameErr");
+  const emailErr = document.getElementById("emailErr");
+  const passErr = document.getElementById("passErr");
+  const confirmErr = document.getElementById("confirmErr");
+
+  /* FIRST NAME */
+  if(!validName(first) || first.length === 0){
+    fErr.style.display = "block";
+    hasErr = true;
+  } else fErr.style.display = "none";
+
+  /* LAST NAME */
+  if(!validName(last) || last.length === 0){
+    lErr.style.display = "block";
+    hasErr = true;
+  } else lErr.style.display = "none";
+
+  /* EMAIL DUPLICATE */
+  let accounts = JSON.parse(localStorage.getItem("signus_accounts") || "[]");
+  if(accounts.some(a => a.email.toLowerCase() === email)){
+    emailErr.style.display = "block";
+    hasErr = true;
+  } else emailErr.style.display = "none";
+
+  /* PASSWORD FORMAT */
+  if(!validPassword(pass)){
+    passErr.style.display = "block";
+    hasErr = true;
+  } else passErr.style.display = "none";
+
+  /* CONFIRM PASSWORD */
+  if(pass !== conf){
+    confirmErr.style.display = "block";
+    document.getElementById("confirm").classList.add("shake");
+    setTimeout(()=>document.getElementById("confirm").classList.remove("shake"),300);
+    hasErr = true;
+  } else confirmErr.style.display = "none";
+
+  if(hasErr) return;
+
+  /* CREATE USER */
+  const fullName = first + " " + last;
+  const newUser = {
+    firstName:first,
+    lastName:last,
+    fullName,
+    email,
+    password:pass
+  };
+
+  accounts.push(newUser);
+  localStorage.setItem("signus_accounts", JSON.stringify(accounts));
+
+  /* AUTO LOGIN AFTER SIGNUP */
+  localStorage.setItem("signus_user", JSON.stringify(newUser));
+  localStorage.setItem("signus_session_start", String(Date.now()));
+  localStorage.removeItem("signus_guest");
+
+  alert("Account created successfully!");
+  window.location.href = "index.html";
+});
+
+</script>
+
+</body>
+</html>

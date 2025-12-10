@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Settings | SIGNUS TATTOO</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- BOOTSTRAP -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+<!-- GOOGLE FONTS -->
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin:0;
+  padding-top:90px;
+  font-family:'Montserrat', sans-serif;
+  background:#f5f5f5;
+}
+
+*:focus { outline:none !important; box-shadow:none !important; }
+input:focus, button:focus { border-color:black !important; }
+input:-webkit-autofill {
+  -webkit-box-shadow:0 0 0 1000px white inset !important;
+  -webkit-text-fill-color:black !important;
+}
+
+.nav-link {
+  position:relative;
+  display:inline-block;
+  color:#6c757d !important;
+  font-weight:700;
+  text-decoration:none;
+}
+
+.nav-link:hover {
+  color:black !important;
+  opacity:.7;
+}
+
+.nav-link::after {
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-3px;
+  width:0%;
+  height:2px;
+  background:black;
+  transition:.3s ease;
+}
+
+.nav-link:hover::after { width:100%; }
+
+/* ERROR TEXT */
+.error-text {
+  display:none;
+  color:#b30000;
+  font-size:.85rem;
+  margin-top:3px;
+}
+
+/* SHAKE ANIMATION */
+@keyframes shake {
+  0% { transform:translateX(0); }
+  25% { transform:translateX(-5px); }
+  50% { transform:translateX(5px); }
+  75% { transform:translateX(-5px); }
+  100% { transform:translateX(0); }
+}
+.shake { animation:shake .3s; }
+
+/* EYE ICON */
+.eye-wrap { position:relative; }
+.eye-icon {
+  position:absolute;
+  right:12px;
+  top:50%;
+  transform:translateY(-50%);
+  cursor:pointer;
+  color:#555;
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<nav id="mainNav" class="navbar fixed-top" style="background:white; padding:12px 20px; z-index:4000;">
+  <div class="container-fluid d-flex align-items-center justify-content-between">
+
+    <!-- MOBILE LOGO -->
+    <a href="index.html" class="d-lg-none">
+      <img src="logoMobile.png" style="height:45px;">
+    </a>
+
+    <!-- DESKTOP NAV -->
+    <div class="d-none d-lg-flex align-items-center" style="gap:30px;">
+      <a href="index.html">
+        <img src="logo.png" style="height:55px;">
+      </a>
+
+      <a href="flash.html" class="nav-link">FLASH</a>
+      <a href="about.html" class="nav-link">ABOUT</a>
+      <a href="contact.html" class="nav-link">CONTACT</a>
+      <a href="faqs.html" class="nav-link">FAQS</a>
+    </div>
+
+    <!-- DESKTOP RIGHT -->
+    <div id="rightNav" class="d-none d-lg-flex align-items-center" style="gap:25px;"></div>
+
+    <!-- MOBILE BURGER -->
+    <button id="mobileToggle" class="navbar-toggler d-lg-none"
+            style="border:none; background:none; font-size:24px;">
+      &#9776;
+    </button>
+
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div id="mobileMenu"
+     style="
+       display:none;
+       background:white;
+       width:200px;
+       position:fixed;
+       top:70px;
+       right:20px;
+       padding:15px 20px;
+       border-radius:4px;
+       box-shadow:0 4px 10px rgba(0,0,0,.12);
+       opacity:0;
+       transform:translateY(-10px);
+       transition:all .25s ease;
+       z-index:3000;
+     ">
+
+  <a href="index.html" class="mobile-link" style="display:block; padding:10px 0; color:#6c757d;">Home</a>
+  <a href="flash.html" class="mobile-link" style="display:block; padding:10px 0; color:#6c757d;">Flash</a>
+  <a href="about.html" class="mobile-link" style="display:block; padding:10px 0; color:#6c757d;">About</a>
+  <a href="contact.html" class="mobile-link" style="display:block; padding:10px 0; color:#6c757d;">Contact</a>
+  <a href="faqs.html" class="mobile-link" style="display:block; padding:10px 0; color:#6c757d;">FAQs</a>
+
+  <div id="mobileAccount" style="margin-top:15px; font-size:12px; opacity:.7;">Account</div>
+</div>
+
+<div style="
+  max-width:600px;
+  margin:100px auto 60px;
+  background:white;
+  padding:35px;
+  border-radius:10px;
+  box-shadow:0 4px 18px rgba(0,0,0,.15);
+">
+
+<h2 style="font-family:'Anton'; text-align:center; margin-bottom:25px;">
+  Account Settings
+</h2>
+
+<form id="settingsForm">
+
+  <!-- FIRST NAME -->
+  <label>First Name</label>
+  <input id="firstName" class="form-control">
+  <div id="fNameErr" class="error-text">Invalid or duplicate name.</div>
+
+  <!-- LAST NAME -->
+  <label style="margin-top:10px;">Last Name</label>
+  <input id="lastName" class="form-control">
+  <div id="lNameErr" class="error-text">Invalid or duplicate name.</div>
+
+  <!-- EMAIL -->
+  <label style="margin-top:10px;">Email</label>
+  <input id="email" type="email" class="form-control">
+  <div id="emailErr" class="error-text">Email already exists.</div>
+
+  <!-- CURRENT PASSWORD -->
+  <label style="margin-top:10px;">Enter Current Password</label>
+  <div class="eye-wrap">
+    <input id="currentPass" type="password" class="form-control">
+    <i class="bi bi-eye eye-icon" onclick="toggleEye('currentPass', this)"></i>
+  </div>
+  <div id="currentPassErr" class="error-text">Incorrect current password.</div>
+
+  <!-- NEW PASSWORD -->
+  <label style="margin-top:10px;">New Password (optional)</label>
+  <div class="eye-wrap">
+    <input id="newPass" type="password" class="form-control">
+    <i class="bi bi-eye eye-icon" onclick="toggleEye('newPass', this)"></i>
+  </div>
+  <div id="newPassErr" class="error-text">Password does not meet requirements.</div>
+
+  <!-- CONFIRM PASS -->
+  <label style="margin-top:10px;">Confirm New Password</label>
+  <div class="eye-wrap">
+    <input id="confirmPass" type="password" class="form-control">
+    <i class="bi bi-eye eye-icon" onclick="toggleEye('confirmPass', this)"></i>
+  </div>
+  <div id="confirmPassErr" class="error-text">Passwords do not match.</div>
+
+  <button type="submit"
+    style="margin-top:20px; width:100%; background:black; color:white;
+           padding:10px; border:none; border-radius:5px;">
+    UPDATE ACCOUNT
+  </button>
+
+</form>
+
+</div>
+
+<!-- ================= FOOTE ================= -->
+<footer style="background:black; color:white; margin-top:40px;">
+
+  <div class="container py-5">
+    <div class="row gy-4">
+
+      <div class="col-md-4 text-center text-md-start footer-mobile-center">
+        <img src="logo1.png" class="footer-logo-desktop" style="max-height:90px; padding-left:60px; margin-top:30px;">
+      </div>
+
+      <div class="col-md-4 text-center text-md-start footer-mobile-center">
+        <h5 style="font-weight:700;">Contact Info</h5>
+
+        <div class="footer-underline"
+             style="height:2px; width:50px; background:white; margin:5px 0 15px;"></div>
+
+        <p><i class="bi bi-telephone"></i> 0991-845-1903</p>
+
+        <p>
+          <i class="bi bi-envelope"></i>
+          <a href="mailto:rhubelyngracef@gmail.com"
+             style="color:white; text-decoration:underline;">
+            rhubelyngracef@gmail.com
+          </a>
+        </p>
+
+        <p>
+          <i class="bi bi-facebook"></i>
+          <a href="#" style="color:white; text-decoration:underline;">Signus Tattoo</a>
+        </p>
+      </div>
+
+      <div class="col-md-4 text-center text-md-start footer-mobile-center">
+        <h5 style="font-weight:700;">Business Hours</h5>
+
+        <div class="footer-underline"
+             style="height:2px; width:50px; background:white; margin:5px 0 15px;"></div>
+
+        <p>Everyday: <strong>9:00 AM – 9:00 PM</strong></p>
+      </div>
+
+    </div>
+  </div>
+
+  <div style="text-align:center; padding:12px; background:black; font-size:13px;">
+    © 2025 Signus Tattoo. All Rights Reserved.
+  </div>
+
+</footer>
+
+<!-- ================= JS ================= -->
+<script>
+
+function toggleEye(id, icon){
+  let input = document.getElementById(id);
+  if(input.type === "password"){
+    input.type = "text";
+    icon.classList.replace("bi-eye","bi-eye-slash");
+  } else {
+    input.type = "password";
+    icon.classList.replace("bi-eye-slash","bi-eye");
+  }
+}
+
+function validName(str){ return /^[A-Za-z ]+$/.test(str.trim()); }
+function validPassword(p){
+  return p.length>=8 && p.length<=16 &&
+         /[A-Z]/.test(p) &&
+         /[0-9]/.test(p) &&
+         /[!@#$%^&*(),.?":{}|<>]/.test(p);
+}
+
+const user = JSON.parse(localStorage.getItem("signus_user"));
+const accounts = JSON.parse(localStorage.getItem("signus_accounts") || "[]");
+
+if(!user){ window.location.href = "login.html"; }
+
+const firstName = document.getElementById("firstName");
+const lastName = document.getElementById("lastName");
+const emailInput = document.getElementById("email");
+const currentPass = document.getElementById("currentPass");
+const newPass = document.getElementById("newPass");
+const confirmPass = document.getElementById("confirmPass");
+
+firstName.value = user.firstName;
+lastName.value = user.lastName;
+emailInput.value = user.email;
+
+document.getElementById("settingsForm").addEventListener("submit", function(e){
+  e.preventDefault();
+
+  let first = firstName.value.trim();
+  let last = lastName.value.trim();
+  let emailVal = emailInput.value.trim();
+  let current = currentPass.value;
+  let newP = newPass.value;
+  let conf = confirmPass.value;
+
+  let fullName = first + " " + last;
+  let hasErr = false;
+
+  document.querySelectorAll(".error-text").forEach(e => e.style.display="none");
+
+  // NAME VALIDATION
+  if(!validName(first) || !validName(last)){
+    fNameErr.style.display = "block";
+    lNameErr.style.display = "block";
+    hasErr = true;
+  }
+
+  // DUPLICATE FULL NAME
+  if(accounts.some(a =>
+     a.fullName &&
+     a.fullName.toLowerCase() === fullName.toLowerCase() &&
+     a.email !== user.email)){
+       fNameErr.style.display = "block";
+       lNameErr.style.display = "block";
+       hasErr = true;
+  }
+
+  // DUPLICATE EMAIL
+  if(accounts.some(a =>
+     a.email &&
+     a.email.toLowerCase() === emailVal.toLowerCase() &&
+     a.email !== user.email)){
+       emailErr.style.display = "block";
+       hasErr = true;
+  }
+
+  // CURRENT PASSWORD CHECK
+  if(current !== user.password){
+    currentPassErr.style.display = "block";
+    currentPass.classList.add("shake");
+    setTimeout(()=>currentPass.classList.remove("shake"),300);
+    hasErr = true;
+  }
+
+  // NEW PASSWORD VALIDATION
+  if(newP.length > 0){
+    if(!validPassword(newP)){
+      newPassErr.style.display = "block";
+      hasErr = true;
+    }
+    if(newP !== conf){
+      confirmPassErr.style.display = "block";
+      confirmPass.classList.add("shake");
+      setTimeout(()=>confirmPass.classList.remove("shake"),300);
+      hasErr = true;
+    }
+  }
+
+  if(hasErr) return;
+
+  // FINAL UPDATED USER
+  const updated = {
+    firstName:first,
+    lastName:last,
+    fullName,
+    email:emailVal,
+    password: newP.length > 0 ? newP : user.password
+  };
+
+  // UPDATE ACCOUNTS
+  const idx = accounts.findIndex(a => a.email === user.email);
+  if(idx !== -1){ accounts[idx] = updated; }
+  localStorage.setItem("signus_accounts", JSON.stringify(accounts));
+
+  // UPDATE ACTIVE USER
+  localStorage.setItem("signus_user", JSON.stringify(updated));
+
+  alert("Account updated!");
+  location.reload();
+});
+
+// ---------------- NAVBAR BUILD ----------------
+function buildRightNav(){
+  const nav = document.getElementById("rightNav");
+  const u = JSON.parse(localStorage.getItem("signus_user"));
+
+  if(!u){
+    nav.innerHTML = `
+      <a href="login.html" class="nav-link">LOGIN</a>
+      <a href="signup.html" class="nav-link">SIGN UP</a>
+    `;
+  } else {
+    nav.innerHTML = `
+      <a href="notifications.html" class="nav-link">
+        <i class="bi bi-bell-fill fs-4"></i>
+      </a>
+
+      <div class="dropdown">
+        <button class="btn dropdown-toggle"
+          style="border:none; background:none; color:#6c757d;"
+          data-bs-toggle="dropdown">
+          <i class="bi bi-person-circle fs-4"></i>
+        </button>
+
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li class="dropdown-item-text">Hello, <b>${u.fullName}</b></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" href="settings.html">Account Settings</a></li>
+          <li><a class="dropdown-item" href="notifications.html">Notifications</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item text-danger" href="#" onclick="logout()">Logout</a></li>
+        </ul>
+      </div>
+    `;
+  }
+}
+
+function logout(){
+  localStorage.removeItem("signus_user");
+  localStorage.removeItem("signus_guest");
+  window.location.href = "login.html";
+}
+
+
+
+// ---------------- MOBILE MENU ----------------
+const toggle = document.getElementById("mobileToggle");
+const menu = document.getElementById("mobileMenu");
+
+toggle.onclick = () => {
+  if(menu.classList.contains("open")){
+    menu.classList.remove("open");
+    menu.style.opacity = "0";
+    menu.style.display = "none";
+    toggle.innerHTML = "&#9776;";
+  } else {
+    menu.classList.add("open");
+    menu.style.display = "block";
+    setTimeout(()=> menu.style.opacity = "1", 10);
+    toggle.innerHTML = "&times;";
+  }
+};
+
+// BUILD MOBILE ACCOUNT LINKS
+function buildMobileAccount(){
+  const acc = document.getElementById("mobileAccount");
+  const user = JSON.parse(localStorage.getItem("signus_user"));
+
+  acc.insertAdjacentHTML("afterend",
+    !user
+      ? `<a href="login.html" class="mobile-link">Login</a>
+         <a href="signup.html" class="mobile-link">Sign Up</a>`
+      : `<a href="settings.html" class="mobile-link">Settings</a>
+         <a href="notifications.html" class="mobile-link">Notifications</a>
+         <a href="#" class="mobile-link" onclick="logout()">Logout</a>`
+  );
+}
+
+document.addEventListener("DOMContentLoaded", ()=>{
+  buildRightNav();
+  buildMobileAccount();
+});
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

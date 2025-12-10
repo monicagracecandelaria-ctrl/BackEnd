@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Login | SIGNUS TATTOO</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- BOOTSTRAP -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+<style>
+
+*:focus,
+input:focus,
+button:focus {
+  outline:none !important;
+  box-shadow:none !important;
+  border-color:black !important;
+}
+
+input:-webkit-autofill {
+  -webkit-box-shadow:0 0 0 1000px white inset !important;
+  -webkit-text-fill-color:black !important;
+}
+
+* { -webkit-tap-highlight-color:rgba(0,0,0,0) !important; }
+
+.logo-box {
+  width:350px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
+  background:transparent;
+}
+
+.form-box {
+  width:380px;
+  background:white;
+  padding:35px;
+  border-radius:12px;
+  box-shadow:0 4px 20px rgba(0,0,0,.35);
+}
+
+/* DESKTOP */
+.main-wrapper {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:35px;
+}
+
+/* MOBILE FIXES */
+@media(max-width:768px){
+  .main-wrapper {
+    flex-direction:column;
+    gap:10px;
+  }
+
+  .logo-box img {
+    max-width:140px !important;
+    padding-right:0 !important;
+    margin:auto;
+    display:block;
+  }
+}
+
+/* ERROR BOX */
+#errorBox {
+  display:none;
+  background:#f8d7da;
+  color:#842029;
+  padding:8px 12px;
+  border-radius:4px;
+  margin-bottom:12px;
+  font-size:.85rem;
+}
+
+/* SHAKE ANIMATION */
+@keyframes shakeMedium {
+  0% { transform:translateX(0); }
+  25% { transform:translateX(-6px); }
+  50% { transform:translateX(6px); }
+  75% { transform:translateX(-6px); }
+  100% { transform:translateX(0); }
+}
+.shake { animation:shakeMedium 0.3s ease; }
+
+</style>
+</head>
+
+<body style="margin:0;">
+
+<!-- BACKGROUND -->
+<div style="position:relative; height:100vh; width:100%; overflow:hidden;">
+
+  <video autoplay muted loop playsinline
+     style="position:absolute; width:100%; height:100%; object-fit:cover;">
+    <source src="homebg.mp4" type="video/mp4">
+  </video>
+
+  <div style="position:absolute; inset:0; background:rgba(0,0,0,.55);"></div>
+
+  <!-- CENTER CONTENT -->
+  <div style="position:absolute; inset:0; display:flex; justify-content:center; align-items:center;">
+
+    <div class="main-wrapper">
+
+      <!-- LOGO BOX -->
+      <div class="logo-box">
+        <img src="logo1.png" style="width:1000px; max-width:560px; padding-right:220px;">
+      </div>
+
+      <!-- LOGIN FORM -->
+      <div class="form-box">
+
+        <div id="errorBox"></div>
+
+        <form id="loginForm">
+
+          <label>Name / Email</label>
+          <input type="text" id="loginName" class="form-control mb-3" required>
+
+          <label>Password</label>
+          <div style="position:relative;">
+            <input type="password" id="loginPassword" class="form-control" required>
+
+            <i class="bi bi-eye"
+               id="togglePassword"
+               onclick="togglePass()"
+               style="
+                 position:absolute;
+                 right:12px;
+                 top:50%;
+                 transform:translateY(-50%);
+                 cursor:pointer;
+                 color:#555;
+               "></i>
+          </div>
+
+          <button type="submit"
+            style="margin-top:20px; width:100%; padding:10px;
+                   background:black; color:white; border:none; border-radius:4px;
+                   font-weight:600;">
+            SIGN IN
+          </button>
+
+          <div style="margin-top:15px; text-align:center; font-size:.85rem;">
+            Don't have an account?
+            <a href="signup.html" style="text-decoration:underline; color:black;">Create Account</a>
+          </div>
+
+          <button type="button"
+            onclick="guestMode()"
+            style="margin-top:15px; width:100%; padding:10px; background:white;
+                   border:1px solid black; border-radius:4px; font-weight:600;">
+            Continue as guest
+          </button>
+
+        </form>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<!-- ================= JS ================= -->
+<script>
+/* PASSWORD TOGGLE */
+function togglePass(){
+  const pw = document.getElementById("loginPassword");
+  const icon = document.getElementById("togglePassword");
+
+  if (pw.type === "password") {
+    pw.type = "text";
+    icon.classList.replace("bi-eye","bi-eye-slash");
+  } else {
+    pw.type = "password";
+    icon.classList.replace("bi-eye-slash","bi-eye");
+  }
+}
+
+let attempts = Number(localStorage.getItem("signus_attempts") || 0);
+let lockUntil = Number(localStorage.getItem("signus_lock_until") || 0);
+
+function isLocked(){ return Date.now() < lockUntil; }
+
+function startCooldown(){
+  lockUntil = Date.now() + 5000;
+  localStorage.setItem("signus_lock_until", lockUntil);
+  countdown();
+}
+
+function countdown(){
+  const box = document.getElementById("errorBox");
+  let remain = Math.ceil((lockUntil - Date.now())/1000);
+
+  if(remain > 0){
+    box.style.display="block";
+    box.innerText="Too many attempts. Try again in " + remain + " seconds.";
+    setTimeout(countdown,1000);
+  } else {
+    attempts = 0;
+    localStorage.setItem("signus_attempts","0");
+    box.style.display="none";
+  }
+}
+
+if(isLocked()) countdown();
+
+document.getElementById("loginForm").addEventListener("submit", function(e){
+  e.preventDefault();
+
+  const box = document.getElementById("errorBox");
+  const input = document.getElementById("loginName").value.trim().toLowerCase();
+  const pass = document.getElementById("loginPassword").value;
+
+  if(isLocked()){ countdown(); return; }
+
+  /* ADMIN LOGIN */
+  if(input === "admin" && pass === "ADMIN"){
+    localStorage.setItem("signus_user", JSON.stringify({name:"ADMIN", role:"admin"}));
+    localStorage.setItem("signus_session_start", String(Date.now()));
+    localStorage.setItem("signus_attempts","0");
+    window.location.href="dashboard.html";
+    return;
+  }
+
+  const accounts = JSON.parse(localStorage.getItem("signus_accounts") || "[]");
+
+  /* MATCH name OR fullName OR email */
+  const found = accounts.find(a => {
+    const n = (a.name || a.fullName || "").toLowerCase();
+    const mail = (a.email || "").toLowerCase();
+    return n === input || mail === input;
+  });
+
+  /* INVALID LOGIN */
+  if(!found || found.password !== pass){
+    attempts++;
+    localStorage.setItem("signus_attempts", attempts);
+
+    if(attempts >= 5){ startCooldown(); return; }
+
+    box.style.display="block";
+    box.innerText="Wrong name/email or password. Attempts left: " + (5 - attempts);
+
+    document.getElementById("loginForm").classList.add("shake");
+    setTimeout(()=>document.getElementById("loginForm").classList.remove("shake"),300);
+
+    return;
+  }
+
+  /* SUCCESS LOGIN */
+  localStorage.setItem("signus_user", JSON.stringify(found));
+  localStorage.setItem("signus_session_start", String(Date.now()));
+  localStorage.setItem("signus_attempts","0");
+  localStorage.removeItem("signus_guest");
+
+  window.location.href="index.html";
+});
+
+/* GUEST MODE */
+function guestMode(){
+  localStorage.setItem("signus_guest","true");
+  window.location.href="index.html";
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Home | SIGNUS TATTOO</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- BOOTSTRAP -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+<!-- FONTS -->
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin:0;
+  padding-top:90px;
+  font-family:'Montserrat', sans-serif;
+}
+
+*:focus { outline:none !important; box-shadow:none !important; }
+
+/* ================= DESKTOP NAV ================= */
+.nav-link {
+  position:relative;
+  display:inline-block;
+  color:#6c757d !important;
+  font-weight:700;
+  text-decoration:none;
+}
+.nav-link:hover { color:black !important; opacity:.7; }
+
+.nav-link::after {
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-3px;
+  width:0%;
+  height:2px;
+  background:black;
+  transition:.3s ease;
+}
+.nav-link:hover::after { width:100%; }
+.nav-active { color:black !important; }
+
+/* ================= MOBILE MENU ================= */
+#mobileMenu {
+  display:none;
+  background:white;
+  width:200px;
+  position:fixed;
+  top:70px;
+  right:20px;
+  padding:15px 20px;
+  border-radius:4px;
+  box-shadow:0 4px 10px rgba(0,0,0,.12);
+  opacity:0;
+  transform:translateY(-10px);
+  transition:all .25s ease;
+  z-index:3000;
+}
+#mobileMenu.open {
+  display:block;
+  opacity:1;
+  transform:translateY(0);
+}
+
+.mobile-link {
+  display:block;
+  padding:10px 0;
+  font-size:17px;
+  font-weight:400;
+  color:#6c757d;
+  text-decoration:none;
+}
+.mobile-link.active { color:black !important; }
+.mobile-link:hover { opacity:.6; }
+
+/* ================= FOOTER ================= */
+.footer-logo-desktop {
+  max-height:90px !important;
+  padding-left:60px !important;
+  margin-top:30px !important;
+}
+.footer-logo-mobile { display:none !important; }
+
+@media(max-width:576px){
+  .footer-logo-desktop { display:none !important; }
+  .footer-mobile-center { text-align:center !important; margin-bottom:25px !important; }
+  .footer-underline { margin-left:auto !important; margin-right:auto !important; }
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<nav id="mainNav" class="navbar fixed-top"
+     style="background:white; padding:12px 20px; z-index:4000;">
+  <div class="container-fluid d-flex align-items-center justify-content-between">
+
+    <!-- MOBILE LOGO -->
+    <a href="index.html" class="d-lg-none">
+      <img src="logoMobile.png" style="height:45px;">
+    </a>
+
+    <!-- DESKTOP NAV -->
+    <div class="d-none d-lg-flex align-items-center" style="gap:30px;">
+      <a href="index.html">
+        <img src="logo.png" style="height:55px;">
+      </a>
+
+      <a href="flash.html" class="nav-link">FLASH</a>
+      <a href="about.html" class="nav-link">ABOUT</a>
+      <a href="contact.html" class="nav-link">CONTACT</a>
+      <a href="faqs.html" class="nav-link">FAQS</a>
+    </div>
+
+    <!-- DESKTOP RIGHT -->
+    <div id="rightNav" class="d-none d-lg-flex align-items-center" style="gap:25px;"></div>
+
+    <!-- MOBILE BURGER -->
+    <button id="mobileToggle" class="navbar-toggler d-lg-none"
+            style="border:none; background:none; font-size:24px;">
+      &#9776;
+    </button>
+
+  </div>
+</nav>
+
+<!-- ================= MOBILE MENU ================= -->
+<div id="mobileMenu">
+
+  <a href="index.html" class="mobile-link active">Home</a>
+  <a href="flash.html" class="mobile-link">Flash</a>
+  <a href="about.html" class="mobile-link">About</a>
+  <a href="contact.html" class="mobile-link">Contact</a>
+  <a href="faqs.html" class="mobile-link">FAQs</a>
+
+  <div id="mobileAccount"
+       style="margin-top:15px; font-size:12px; opacity:.7;">Account</div>
+
+</div>
+
+<!-- ================= HERO VIDEO ================= -->
+<div style="position:relative; height:100vh; overflow:hidden; color:white; text-align:center;">
+
+  <video autoplay muted loop playsinline
+         style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;">
+    <source src="homebg.mp4" type="video/mp4">
+  </video>
+
+  <div style="position:absolute; inset:0; background:rgba(0,0,0,.35);"></div>
+
+  <div style="position:relative; top:140px;">
+    <p style="font-size:13px; letter-spacing:3px;">EST. 2009</p>
+
+    <h1 style="font-size:5rem; font-family:'Anton';">SIGNUS TATTOO</h1>
+
+    <p style="max-width:600px; margin:auto;">
+      Where shadows shape your story, and every mark is a monument of memory.
+    </p>
+
+    <div class="d-flex justify-content-center gap-3 mt-4 flex-wrap">
+      <a href="about.html"
+         class="btn"
+         style="background:white; color:black; padding:10px 30px; border:2px solid white; border-radius: 0px;">
+        <b>MEET THE ARTIST</b>
+      </a>
+
+      <a href="#" onclick="handleBook(event)"
+         class="btn"
+         style="background:white; color:black; padding:10px 30px; border:2px solid white; border-radius: 0px;">
+        <b>BOOK AN APPOINTMENT</b>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<!-- ================= WELCOME ================= -->
+<div style="background:white; padding:80px 0;">
+  <div class="container">
+    <div class="row align-items-start">
+
+      <div class="col-md-6">
+        <div class="row g-3">
+          <div class="col-6"><img src="flashbg.png" class="img-fluid"></div>
+          <div class="col-6"><img src="aboutbg.png" class="img-fluid"></div>
+          <div class="col-12"><img src="contactbg.png" class="img-fluid"></div>
+        </div>
+      </div>
+
+      <div class="col-md-6" style="padding-left:40px; margin-top:20px;">
+
+        <h2 style="font-size:3.5rem; font-family:'Anton'; margin-bottom:15px; margin-top: -24px;">
+          SIGNUS TATTOO
+        </h2>
+
+        <p style="line-height:1.7; font-size:13px;">
+          Signus Tattoo opened its doors in 2009, born from the determination of an artist who
+          believed that tattoos should be personal, meaningful, and accessible to everyone. The
+          studio began as a small, two-room space — built with secondhand furniture and a single
+          work lamp — but filled with passion and purpose.
+          <br><br>
+          The goal was simple: to offer a place for permanent art with steady quality. The studio
+          grew little by little through walk-ins, referrals, and returning clients. Each piece
+          helped build trust in the community.
+          <br><br>
+          The studio grew through patience, hard work, and perseverance. Others brought their
+          family or friends. People asked for names, symbols, dates, and their personal design.
+          Each request shaped them, and it improved through constant practice. Their space stayed
+          clean, organized, and prepared daily sessions.
+        </p>
+
+        <a href="about.html"
+           class="btn"
+           style="background:black; color:white; padding:10px 30px; letter-spacing:0.15em; border-radius: 0px;">
+          <b>READ OUR STORY</b>
+        </a>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ================= FOOTER ================= -->
+<footer style="background:black; color:white; margin-top:40px;">
+
+  <div class="container py-5">
+    <div class="row gy-4">
+
+      <div class="col-md-4 text-center text-md-start footer-mobile-center">
+        <img src="logo1.png" class="footer-logo-desktop">
+      </div>
+
+      <div class="col-md-4 text-center text-md-start footer-mobile-center">
+        <h5 style="font-weight:700;">Contact Info</h5>
+
+        <div class="footer-underline"
+             style="height:2px; width:50px; background:white; margin:5px 0 15px;"></div>
+
+        <p><i class="bi bi-telephone"></i> 0991-845-1903</p>
+
+        <p>
+          <i class="bi bi-envelope"></i>
+          <a href="mailto:rhubelyngracef@gmail.com"
+             style="color:white; text-decoration:underline;">
+            rhhubelyngracef@gmail.com
+          </a>
+        </p>
+
+        <p>
+          <i class="bi bi-facebook"></i>
+          <a href="https://www.facebook.com/share/1GJRC6sdba/" target="_blank"
+             style="color:white; text-decoration:underline;">
+            Signus Tattoo
+          </a>
+        </p>
+      </div>
+
+      <div class="col-md-4 text-center text-md-start footer-mobile-center">
+        <h5 style="font-weight:700;">Business Hours</h5>
+
+        <div class="footer-underline"
+             style="height:2px; width:50px; background:white; margin:5px 0 15px;"></div>
+
+        <p>Everyday: <strong>9:00 AM – 9:00 PM</strong></p>
+      </div>
+
+    </div>
+  </div>
+
+  <div style="text-align:center; padding:12px; background:black; font-size:13px;">
+    © 2025 Signus Tattoo. All Rights Reserved.
+  </div>
+
+</footer>
+
+<!-- ================= JS ================= -->
+<script>
+
+/* GUEST CANNOT BOOK */
+function handleBook(event) {
+  event.preventDefault();
+  const user = localStorage.getItem("signus_user");
+  if (!user) {
+    alert("You need to log in first to book an appointment.");
+    window.location.href = "login.html";
+    return;
+  }
+  window.location.href = "contact.html";
+}
+
+/* DESKTOP RIGHT NAV */
+function buildRightNav() {
+  const rightNav = document.getElementById("rightNav");
+  const user = JSON.parse(localStorage.getItem("signus_user") || "null");
+
+ rightNav.innerHTML = !user
+  ? `<a href="login.html" class="nav-link">LOGIN</a>
+     <a href="signup.html" class="nav-link">SIGN UP</a>`
+  : `
+     <a href="notifications.html" class="nav-link" style="color:#6c757d;">
+       <i class="bi bi-bell-fill fs-4"></i>
+     </a>
+
+     <div class="dropdown">
+       <button class="btn dropdown-toggle"
+         style="border:none; background:none; color:#6c757d;"
+         data-bs-toggle="dropdown">
+         <i class="bi bi-person-circle fs-4"></i>
+       </button>
+
+       <ul class="dropdown-menu dropdown-menu-end">
+         <li class="dropdown-item-text">Hello, <b>${user.fullName}</b></li>
+         <li><hr class="dropdown-divider"></li>
+         <li><a class="dropdown-item" href="settings.html">Account Settings</a></li>
+         <li><a class="dropdown-item" href="notifications.html">Notifications</a></li>
+         <li><hr class="dropdown-divider"></li>
+         <li><a class="dropdown-item text-danger" href="login.html" onclick="logoutUser()">Logout</a></li>
+       </ul>
+     </div>
+    `;
+}
+
+/* MOBILE ACCOUNT LINKS */
+function buildMobileAccount() {
+  const acc = document.getElementById("mobileAccount");
+  const user = JSON.parse(localStorage.getItem("signus_user") || "null");
+
+  acc.insertAdjacentHTML("afterend",
+    !user
+      ? `<a href="login.html" class="mobile-link">Login</a>
+         <a href="signup.html" class="mobile-link">Sign Up</a>`
+      : `<a href="settings.html" class="mobile-link">Settings</a>
+         <a href="notifications.html" class="mobile-link">Notifications</a>
+         <a href="login.html" class="mobile-link" onclick="logoutUser()">Logout</a>`
+  );
+}
+
+function logoutUser(){
+  localStorage.removeItem("signus_user");
+}
+
+/* MOBILE MENU TOGGLE */
+const toggle = document.getElementById("mobileToggle");
+const menu = document.getElementById("mobileMenu");
+
+toggle.onclick = () => {
+  if(menu.classList.contains("open")){
+    menu.classList.remove("open");
+    toggle.innerHTML = "&#9776;";
+  } else {
+    menu.classList.add("open");
+    toggle.innerHTML = "&times;";
+  }
+};
+
+/* NAVBAR SHADOW */
+document.addEventListener("scroll",()=>{
+  const nav = document.getElementById("mainNav");
+  nav.style.boxShadow = window.scrollY > 10
+    ? "0 2px 10px rgba(0,0,0,.25)"
+    : "none";
+});
+
+/* SESSION TIMER 45 MINS */
+function initSession(){
+  let start = localStorage.getItem("signus_session_start");
+  if(!start){
+    localStorage.setItem("signus_session_start", Date.now());
+    return;
+  }
+
+  const now = Date.now();
+  if(now - Number(start) >= 45*60*1000){
+    localStorage.setItem("signus_session_expired", "true");
+  }
+}
+
+/* INIT */
+document.addEventListener("DOMContentLoaded",()=>{
+  initSession();
+  buildRightNav();
+  buildMobileAccount();
+});
+
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
